@@ -1,12 +1,13 @@
 <?php
-    if (isset($_POST["sofor_adisoyadi"]) && isset($_POST["sofor_maas"])) {
+    if (isset($_POST["sofor_adisoyadi"]) && isset($_POST["sofor_maas"]) && isset($_POST["sofor_sifre"]) && isset($_POST["sofor_tc"])) {
         require './database.php';
-        $query = $db->prepare("INSERT INTO sofor SET adisoyadi = ?, maas = ?, aktif = ?");
+        $query = $db->prepare("INSERT INTO sofor SET adisoyadi = ?, tc = ?, maas = ?, sifre = ?");
 
         $insert = $query->execute([
             $_POST["sofor_adisoyadi"],
+            $_POST["sofor_tc"],
             $_POST["sofor_maas"],
-            0
+            md5($_POST["sofor_sifre"])
         ]);
 
         if ($insert){
@@ -29,8 +30,16 @@
                 <td><input type="text" name="sofor_adisoyadi" id=""></td>
             </tr>
             <tr>
+                <td>T.C</td>
+                <td><input type="text" name="sofor_tc" id=""></td>
+            </tr>
+            <tr>
                 <td>Maaş</td>
                 <td><input type="text" name="sofor_maas" id=""></td>
+            </tr>
+            <tr>
+                <td>Şifre</td>
+                <td><input type="text" name="sofor_sifre" id=""></td>
             </tr>
             <tr>
                 <td></td>
