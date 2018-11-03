@@ -1,6 +1,9 @@
 <?php
+    session_start();
+    require "./check_admin.php";
+
     if (isset($_POST["arac_plaka"]) && isset($_POST["arac_model"]) && isset($_POST["arac_yakit"])) {
-        require './database.php';
+        require '../database.php';
         $query = $db->prepare("INSERT INTO arac SET plaka = ?, model = ?, yakit = ?");
 
         $insert = $query->execute([
@@ -19,8 +22,8 @@
     }
 
 ?>
+<a href="<?=_SITE_URL_."admin"?>">Admin</a>
 <h2>Araç ekleme</h2>
-
 <form action="" method="POST">
     <table>
         <tbody>

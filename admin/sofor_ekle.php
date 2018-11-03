@@ -1,6 +1,10 @@
 <?php
+    session_start();
+
+    require "./check_admin.php";
+
     if (isset($_POST["sofor_adisoyadi"]) && isset($_POST["sofor_maas"]) && isset($_POST["sofor_sifre"]) && isset($_POST["sofor_tc"])) {
-        require './database.php';
+        require '../database.php';
         $query = $db->prepare("INSERT INTO sofor SET adisoyadi = ?, tc = ?, maas = ?, sifre = ?");
 
         $insert = $query->execute([
@@ -20,8 +24,8 @@
     }
 
 ?>
+<a href="<?=_SITE_URL_."admin"?>">Admin</a>
 <h2>Şoför ekleme</h2>
-
 <form action="" method="POST">
     <table>
         <tbody>
