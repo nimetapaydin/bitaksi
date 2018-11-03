@@ -26,6 +26,12 @@
             
         if (isset($_GET["tamamla"]) && isset($_POST["alinan_ucret"])) {
             $sofor_update = $db->prepare("UPDATE sofor SET aktif = '0' WHERE id = ?");
+            $sofor_arabasi = $db->prepare("SELECT plaka FROM arac WHERE sofor_id = ?");
+
+            $sofor_arabasi = $db->prepare("SELECT plaka FROM arac WHERE sofor_id = ?");
+            $sofor_arabasi->execute([$sofor["id"]]);
+            $sofor_arabasi = $sofor_arabasi->fetch();
+
             $musteri_update = $db->prepare("UPDATE cagri SET aktif = '0' WHERE aktif = '1' AND sofor_id = ?");
             $rapor_insert = $db->prepare("INSERT INTO rapor SET sofor_id = ?, arac_plaka = ?, tarih = NOW(), kazanc = ?");
 
@@ -37,16 +43,27 @@
                 $sofor["id"]
             ]);
 
-            $rapor_insert->execute([
+            $rapor_insert = $rapor_insert->execute([
                 $sofor["id"],
+                $sofor_arabasi["plaka"],
+                $_POST["alinan_ucret"]
             ]);
 
+            if($rapor_insert) {
+                echo "İş tamamlandı";
+            }
+            else {
+                echo "İş tamamlanırken bir sorun oluştu";
+            }
+
+            echo "<br/><a href=\"?\">Geri dön</a>";
 
 
             die();
         }
 
 ?>
+<a href="<?=_SITE_URL_?>">Anasayfa</a>
 <table border='1'>
     <tbody>
         <tr>
@@ -99,3 +116,8 @@
     }
 
 ?>
+<script>
+    setInterval(function(){
+        location.reload();
+    }, 10000);
+</script>

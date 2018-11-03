@@ -27,6 +27,7 @@
         }
     }
 ?>
+<a href="<?=_SITE_URL_?>">Anasayfa</a>
 <form action="" method="POST">
     <table>
         <tbody>
