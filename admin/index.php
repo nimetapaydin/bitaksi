@@ -16,9 +16,6 @@
 
     if (isset($_GET["sayfa"])) {
         switch ($_GET["sayfa"]) {
-            case "sofor_ekle":
-                require "./sofor_ekle.php";
-                die();
             case "arac_ekle":
                 require "./arac_ekle.php";
                 die();
@@ -45,7 +42,6 @@
 </head>
 <body>
     <ul>
-        <li><a href="?sayfa=sofor_ekle">Şoför Ekle</a></li>
         <li><a href="?sayfa=arac_ekle">Araç Ekle</a></li>
         <li><a href="?sayfa=aktif_soforler">Şoförleri Görüntüle</a></li>
         <li><a href="?sayfa=rapor">Raporları Görüntüle</a></li>

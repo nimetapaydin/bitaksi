@@ -4,7 +4,7 @@
         require './database.php';
 
         // PDO::FETCH_ASSOC satır satır çeker
-        $query = $db->query("SELECT id, tc FROM sofor WHERE aktif = '0'", PDO::FETCH_ASSOC);
+        $query = $db->query("SELECT id, tc FROM sofor WHERE aktif = '0' AND onayli = '1' ORDER BY RAND()", PDO::FETCH_ASSOC);
         
         //Aktif olmayan şoför var mı diye bakar.
         if ($query->rowCount() > 0) {
