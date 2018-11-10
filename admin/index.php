@@ -5,7 +5,7 @@
 
     if (isset($_GET["cikis"]) && $_GET["cikis"] == true) {
         session_destroy();
-        header("Location: ". _SITE_URL_ ."admin");
+        header("Location: ". _SITE_URL_);
         die();
     }
 

@@ -71,6 +71,18 @@
     }
 
 ?>
+<html class="taksi_cagir">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css"  href="style.css" />
+   
+<body>
+<div class="loginbox">
+    <img src="avatar.png" class="avatar">
+
 <a href="<?=_SITE_URL_?>">Anasayfa</a>
 <h2>Taksi Çağır</h2>
 <form action="" method="POST">
@@ -95,3 +107,9 @@
         </tbody>
     </table>
 </form>
+</div>
+
+    
+</body>
+</head>
+</html>
