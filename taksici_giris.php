@@ -19,30 +19,54 @@
         if ($query->rowCount() > 0) {
             $_SESSION["oturum_acti"] = true;
             $_SESSION["tc"] = $_POST["sofor_tc"];
-            header("Location: ". _SITE_URL_ ."taksici.php");
-            die();
+            echo "Başarılı";
         }
         else {
             echo "Başarısız";
         }
+        die();
     }
 ?>
 <a href="<?=_SITE_URL_?>">Anasayfa</a>
-<form action="" method="POST">
-    <table>
-        <tbody>
-            <tr>
-                <td>Şoför TC</td>
-                <td><input type="text" name="sofor_tc" id=""></td>
-            </tr>
-            <tr>
-                <td>Şifre</td>
-                <td><input type="text" name="sofor_sifre" id=""></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td><button>Giriş</button></td>
-            </tr>
-        </tbody>
-    </table>
-</form>
+<table>
+    <tbody>
+        <tr>
+            <td>Şoför TC</td>
+            <td><input type="text" name="sofor_tc" id="sofor_tc"></td>
+        </tr>
+        <tr>
+            <td>Şifre</td>
+            <td><input type="text" name="sofor_sifre" id="sofor_sifre"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><button onclick="taksicigiris()">Giriş</button></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td id="loginMessage"></td>
+        </tr>
+    </tbody>
+</table>
+<script>
+    function taksicigiris() {
+        var sofor_tc = document.getElementById('sofor_tc').value;
+        var sofor_sifre = document.getElementById('sofor_sifre').value;
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                if (xhttp.responseText == 'Başarılı')
+                    location.reload();
+
+                if (xhttp.responseText == 'Başarısız')
+                    document.getElementById('loginMessage').innerText = 'Giriş başarısız';
+            }
+        };
+        xhttp.open("POST", "", true);
+        xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+        xhttp.send('sofor_tc=' + sofor_tc + '&' +
+                'sofor_sifre='        + sofor_sifre);
+             
+    }
+</script>

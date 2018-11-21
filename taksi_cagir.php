@@ -3,9 +3,15 @@
     if (isset($_POST["musteri_adisoyadi"]) && isset($_POST["musteri_telefon"]) && isset($_POST["musteri_adres"])) {
         require './database.php';
 
+        $bosta_araba = $db->query("SELECT plaka FROM arac WHERE sofor_id IS NULL");
+        $bosta_araba = $bosta_araba->fetch();
+        $rastgele_sofor = "SELECT id, tc FROM sofor WHERE aktif = '0' AND onayli = '1' ORDER BY RAND()";
+        if (!$bosta_araba) {
+            $rastgele_sofor = "SELECT id, tc FROM sofor WHERE aktif = '0' AND onayli = '1' AND id IN(SELECT sofor_id FROM arac WHERE sofor_id IS NOT NULL) ORDER BY RAND()";            
+        }
+
         // PDO::FETCH_ASSOC satır satır çeker
-        $query = $db->query("SELECT id, tc FROM sofor WHERE aktif = '0' AND onayli = '1' ORDER BY RAND()", PDO::FETCH_ASSOC);
-        
+        $query = $db->query($rastgele_sofor, PDO::FETCH_ASSOC);
         //Aktif olmayan şoför var mı diye bakar.
         if ($query->rowCount() > 0) {
             $sofor = $query->fetch();
@@ -68,6 +74,7 @@
         else {
             echo "Boşta aracımız yoktur";
         }
+        die();
     }
 
 ?>
@@ -85,31 +92,48 @@
 
 <a href="<?=_SITE_URL_?>">Anasayfa</a>
 <h2>Taksi Çağır</h2>
-<form action="" method="POST">
+
     <table>
         <tbody>
             <tr>
                 <td>İsminiz</td>
-                <td><input type="text" name="musteri_adisoyadi" id=""></td>
+                <td><input type="text" name="musteri_adisoyadi" id="musteri_adisoyadi"></td>
             </tr>
             <tr>
                 <td>Telefonunuz</td>
-                <td><input type="text" name="musteri_telefon" id=""></td>
+                <td><input type="text" name="musteri_telefon" id="musteri_telefon"></td>
             </tr>
             <tr>
                 <td>Adresiniz</td>
-                <td><input type="text" name="musteri_adres" id=""></td>
+                <td><input type="text" name="musteri_adres" id="musteri_adres"></td>
             </tr>
             <tr>
                 <td></td>
-                <td><button>Ekle</button></td>
+                <td><button onclick="taksicagir()">Ekle</button></td>
             </tr>
         </tbody>
     </table>
-</form>
-</div>
 
-    
+</div>    
 </body>
 </head>
 </html>
+<script>
+    function taksicagir() {
+        var sofor_adisoyadi = document.getElementById('musteri_adisoyadi').value;
+        var sofor_tc = document.getElementById('musteri_telefon').value;
+        var sofor_sifre = document.getElementById('musteri_adres').value;
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                alert(xhttp.responseText);
+            }
+        };
+        xhttp.open("POST", "", true);
+        xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+        xhttp.send('musteri_adisoyadi=' + musteri_adisoyadi + '&' +
+                   'musteri_telefon='        + musteri_telefon        + '&' +
+                   'musteri_adres='     + musteri_adres     + '&');
+    }
+</script>
