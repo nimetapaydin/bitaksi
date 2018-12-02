@@ -1,5 +1,5 @@
 <?php
-    session_start();
+    session_start(); //php de oturum değerlerinin kullanılmasını sağlar
 
     require "./check_admin.php";
 

@@ -23,14 +23,32 @@
                 // arabası varsa
                 $db->prepare("UPDATE sofor SET aktif = ? WHERE id = ?")->execute(["1", $sofor["id"]]);
 
-                $insert = $db->prepare("INSERT INTO cagri SET sofor_id = ?, musteri_adisoyadi = ?, musteri_telefon = ?, musteri_adres = ?, aktif = ?");
-                $insert = $insert->execute([
-                    $sofor["id"],
-                    $_POST["musteri_adisoyadi"],
-                    $_POST["musteri_telefon"],
-                    $_POST["musteri_adres"],
-                    1
-                ]);
+                $musteri_varmi = $db->prepare("SELECT * FROM cagri WHERE sofor_id = ?");
+                $musteri_varmi->execute([$sofor["id"]]);
+
+                $insert = false;
+                if ($musteri_varmi->rowCount() > 0) {
+                    $cagri_sorgusu = "UPDATE cagri SET musteri_adisoyadi = ?, musteri_telefon = ?, musteri_adres = ?, aktif = ? WHERE sofor_id = ?";   
+                    $insert = $db->prepare($cagri_sorgusu);
+                    $insert = $insert->execute([
+                        $_POST["musteri_adisoyadi"],
+                        $_POST["musteri_telefon"],
+                        $_POST["musteri_adres"],
+                        1,
+                        $sofor["id"]
+                    ]);
+                }
+                else {
+                    $cagri_sorgusu = "INSERT INTO cagri SET sofor_id = ?, musteri_adisoyadi = ?, musteri_telefon = ?, musteri_adres = ?, aktif = ?";
+                    $insert = $db->prepare($cagri_sorgusu);
+                    $insert = $insert->execute([
+                        $sofor["id"],
+                        $_POST["musteri_adisoyadi"],
+                        $_POST["musteri_telefon"],
+                        $_POST["musteri_adres"],
+                        1
+                    ]);
+                }
                 
                 if ($insert) {
                     echo "Araç yola çıkmıştır";
@@ -52,15 +70,32 @@
 
                     // araba atandığı için soför yola çıkmaya hazır
                     $db->prepare("UPDATE sofor SET aktif = ? WHERE id = ?")->execute(["1", $sofor["id"]]);
+                    $musteri_varmi = $db->prepare("SELECT * FROM cagri WHERE sofor_id = ?");
+                    $musteri_varmi->execute([$sofor["id"]]);
 
-                    $insert = $db->prepare("INSERT INTO cagri SET sofor_id = ?, musteri_adisoyadi = ?, musteri_telefon = ?, musteri_adres = ?, aktif = ?");
-                    $insert = $insert->execute([
-                        $sofor["id"],
-                        $_POST["musteri_adisoyadi"],
-                        $_POST["musteri_telefon"],
-                        $_POST["musteri_adres"],
-                        1
-                    ]);
+                    $insert = false;
+                    if ($musteri_varmi->rowCount() > 0) {
+                        $cagri_sorgusu = "UPDATE cagri SET musteri_adisoyadi = ?, musteri_telefon = ?, musteri_adres = ?, aktif = ? WHERE sofor_id = ?";   
+                        $insert = $db->prepare($cagri_sorgusu);
+                        $insert = $insert->execute([
+                            $_POST["musteri_adisoyadi"],
+                            $_POST["musteri_telefon"],
+                            $_POST["musteri_adres"],
+                            1,
+                            $sofor["id"]
+                        ]);
+                    }
+                    else {
+                        $cagri_sorgusu = "INSERT INTO cagri SET sofor_id = ?, musteri_adisoyadi = ?, musteri_telefon = ?, musteri_adres = ?, aktif = ?";
+                        $insert = $db->prepare($cagri_sorgusu);
+                        $insert = $insert->execute([
+                            $sofor["id"],
+                            $_POST["musteri_adisoyadi"],
+                            $_POST["musteri_telefon"],
+                            $_POST["musteri_adres"],
+                            1
+                        ]);
+                    }
 
                     if ($insert) {
                         echo "Araç yola çıkmıştır";
@@ -78,21 +113,108 @@
     }
 
 ?>
-<html class="taksi_cagir">
+<?php require 'view_header.php';?>
+<!DOCTYPE html>
+<html>
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Page Title</title>
+    <title>Taksi Çağır</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css"  href="style.css" />
-   
+    <link rel="stylesheet" type="text/css" media="screen" href="style.css" />
+    <style>
+        body{
+            margin:0;
+            padding:0;
+            background-size: cover;
+            background-position:center;
+            font-family:sans-serif;
+            font-size:20px;
+
+        }
+        .login{
+            width:400px;
+            height:350px;
+            background: #191919;
+            color:#fff;
+            top :50%;
+            left : 50%;
+            position:absolute;
+            transform:translate(-50%,-50%);
+            box-sizing:border-box;
+            padding: 70px 30px;
+            border-radius:10%;
+        }
+        .avatar{
+            width:100px;
+            height:100px;
+            border-radius:30%;
+            position:absolute;
+            top :-50px;
+            left:calc(50% - 10%);
+        }
+        h2{
+        
+            margin:0px;
+            padding: 10 0 0 20px;
+            text-align:center;
+            font-size : 15px;
+        }
+        .login p{
+            margin:0;
+            padding: 0;
+            font-weight:bold;
+        }
+        .login input{
+        width:200px;
+        margin-bottom:5px; 
+        margin-top:10px; 
+        }
+        .login input[type="text"],input[type="password"]{
+            border:none;
+            border-bottom: 1px solid #fff;
+            background: transparent;
+            outline:none;
+            height:40px;
+            color :#fff;
+            font-size :16px;
+            margin-left:10px;
+        }
+        
+        .login a{
+        text-decoration:none;
+        font-size:12px;
+        line-height:20px;
+        color: darkgrey; 
+        margin-left:155px;
+        }
+        .login a:hover{
+        color: #ffc107; 
+        }
+        button{
+            border:none;
+            outline:none;
+            height:25px;
+            width:80px;
+            background: #ffc107;
+            color: #fff;
+            font-size :16px;
+            border-radius:20px;
+            margin-left:50px;
+            margin-top:10px;
+        }
+        button:hover{
+            cursor:pointer;
+            background: #ffc099;
+            color: #000;      
+        }
+    
+    </style> 
+</head>
 <body>
-<div class="loginbox">
-    <img src="avatar.png" class="avatar">
-
-<a href="<?=_SITE_URL_?>">Anasayfa</a>
+<div class="login">
+    <img src="card.png" class="avatar">
 <h2>Taksi Çağır</h2>
-
     <table>
         <tbody>
             <tr>
@@ -113,16 +235,20 @@
             </tr>
         </tbody>
     </table>
+    <a href="<?=_SITE_URL_?>">Anasayfa</a>
 
-</div>    
+</div>  
 </body>
-</head>
 </html>
+  
+
+
+
 <script>
     function taksicagir() {
-        var sofor_adisoyadi = document.getElementById('musteri_adisoyadi').value;
-        var sofor_tc = document.getElementById('musteri_telefon').value;
-        var sofor_sifre = document.getElementById('musteri_adres').value;
+        var musteri_adisoyadi = document.getElementById('musteri_adisoyadi').value;
+        var musteri_telefon = document.getElementById('musteri_telefon').value;
+        var musteri_adres = document.getElementById('musteri_adres').value;
 
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {

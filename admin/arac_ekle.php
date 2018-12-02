@@ -2,14 +2,13 @@
     session_start();
     require "./check_admin.php";
 
-    if (isset($_POST["arac_plaka"]) && isset($_POST["arac_model"]) && isset($_POST["arac_yakit"])) {
+    if (isset($_POST["arac_plaka"]) && isset($_POST["arac_model"])) {
         require '../database.php';
-        $query = $db->prepare("INSERT INTO arac SET plaka = ?, model = ?, yakit = ?");
+        $query = $db->prepare("INSERT INTO arac SET plaka = ?, model = ?"); //prepare ile içine paremetre bind ediyoruz
 
-        $insert = $query->execute([
+        $insert = $query->execute([ //prepare ettiğimiz değerleri sırasına göre çalıştırır
             $_POST["arac_plaka"],
-            $_POST["arac_model"],
-            $_POST["arac_yakit"],
+            $_POST["arac_model"]
         ]);
 
         if ($insert){
@@ -34,10 +33,6 @@
             <tr>
                 <td>Araç'ın modeli</td>
                 <td><input type="text" name="arac_model" id=""></td>
-            </tr>
-            <tr>
-                <td>Araç Yakıt</td>
-                <td><input type="text" name="arac_yakit" id=""></td>
             </tr>
             <tr>
                 <td></td>
