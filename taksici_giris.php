@@ -49,7 +49,7 @@
     .login{
         width:370px;
         height:300px;
-        background: #191919;
+        background: rgba(0,0,0,0.65);
         color:#fff;
         top :50%;
         left : 50%;
@@ -57,7 +57,7 @@
         transform:translate(-50%,-50%);
         box-sizing:border-box;
         padding: 70px 30px;
-        border-radius:10%;
+        border-radius:7%;
     }
     .avatar{
         width:100px;

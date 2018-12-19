@@ -3,6 +3,11 @@
     if (isset($_POST["musteri_adisoyadi"]) && isset($_POST["musteri_telefon"]) && isset($_POST["musteri_adres"])) {
         require './database.php';
 
+        if (trim($_POST["musteri_adisoyadi"]) == "" || trim($_POST["musteri_telefon"]) == "" || trim($_POST["musteri_adres"]) == "") {
+            echo "Taksi çağırma işlemi başarısız. Hatalı girdi";
+            die();
+        }
+
         $bosta_araba = $db->query("SELECT plaka FROM arac WHERE sofor_id IS NULL");
         $bosta_araba = $bosta_araba->fetch();
         $rastgele_sofor = "SELECT id, tc FROM sofor WHERE aktif = '0' AND onayli = '1' ORDER BY RAND()";
@@ -135,7 +140,7 @@
         .login{
             width:400px;
             height:350px;
-            background: #191919;
+            background: rgba(0,0,0,0.65);
             color:#fff;
             top :50%;
             left : 50%;
@@ -143,7 +148,7 @@
             transform:translate(-50%,-50%);
             box-sizing:border-box;
             padding: 70px 30px;
-            border-radius:10%;
+            border-radius:7%;
         }
         .avatar{
             width:100px;

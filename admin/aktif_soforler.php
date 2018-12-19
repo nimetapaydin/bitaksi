@@ -18,6 +18,7 @@
     $soforler = $query->fetchAll();
 
 ?>
+<?php require 'view_header.php';?>
 <a href="<?=_SITE_URL_."admin"?>">Admin</a>
 <h3>Tüm Şoförler</h3>
 <table border="1">

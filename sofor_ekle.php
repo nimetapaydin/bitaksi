@@ -5,6 +5,12 @@
         require './database.php';
         $query = $db->prepare("INSERT INTO sofor SET adisoyadi = ?, tc = ?, sifre = ?");
 
+        if (trim($_POST["sofor_adisoyadi"]) == "" || trim($_POST["sofor_sifre"]) == "" || trim($_POST["sofor_tc"]) == "") {
+            echo "Ekleme işlemi başarısız. Hatalı girdi";
+            die();
+        }
+
+
         $insert = $query->execute([
             $_POST["sofor_adisoyadi"],
             $_POST["sofor_tc"],
@@ -45,7 +51,7 @@
         .login{
             width:550px;
             height:350px;
-            background: #191919;
+            background: rgba(0,0,0,0.65);
             color:#fff;
             top :50%;
             left : 50%;
@@ -53,7 +59,7 @@
             transform:translate(-50%,-50%);
             box-sizing:border-box;
             padding: 70px 30px;
-            border-radius:10%;
+            border-radius:5%;
         }
         .avatar{
             width:100px;

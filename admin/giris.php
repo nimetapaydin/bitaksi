@@ -28,22 +28,29 @@
         }
     }
 ?>
-<h2>Admin Giriş</h2>
-<form action="" method="POST">
-    <table>
-        <tbody>
-            <tr>
-                <td>Admin email</td>
-                <td><input type="text" name="email" id=""></td>
-            </tr>
-            <tr>
-                <td>Şifre</td>
-                <td><input type="text" name="sifre" id=""></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td><button>Giriş</button></td>
-            </tr>
-        </tbody>
-    </table>
-</form>
+<?php require 'view_header.php';?>
+<div  class="login">
+    <img src="../driver.png" class="avatar">
+    <h1>Admin Giriş</h1>
+    <form action="" method="POST">
+        <table>
+            <tbody>
+                <tr>
+                    <td>Admin email</td>
+                    <td><input type="text" name="email" id=""></td>
+                </tr>
+                <tr>
+                    <td>Şifre</td>
+                    <td><input type="text" name="sifre" id=""></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><button>Giriş</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</body>
+</html>
+
+
